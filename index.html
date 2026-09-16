@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#7c3aed">
+<title>Tiboy StoreID - SMM Store</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--primary:#0f766e;--primary2:#14b8a6;--bg:#071a1f;--card:#102a30;--text:#e8f4f3;--muted:#9ab5b5;--border:#24454a;--green:#22c55e}
+html{scroll-behavior:smooth}
+body{font-family:Inter,Arial,Helvetica,sans-serif;background:radial-gradient(ellipse at 15% 0%,#164e63 0%,transparent 38%),radial-gradient(ellipse at 95% 25%,#134e4a 0%,transparent 32%),linear-gradient(145deg,#061318,#0b2025 55%,#071a1f);color:var(--text);min-height:100vh}
+header{position:relative;overflow:hidden;color:#f0fdfa;text-align:left;padding:38px 22px 34px;background:linear-gradient(120deg,#064e4b,#0f766e 55%,#0e7490);box-shadow:0 12px 38px #0005;border-bottom:1px solid #ffffff20}
+header:before,header:after{content:"";position:absolute;border-radius:50%;background:#99f6e433;filter:blur(1px);pointer-events:none}
+header:before{width:240px;height:240px;right:-50px;top:-130px}
+header:after{width:160px;height:160px;right:160px;bottom:-125px}
+.logo{position:relative;font-size:clamp(28px,5vw,42px);font-weight:950;letter-spacing:-1.4px}
+.tagline{position:relative;margin-top:8px;font-size:13px;color:#ccfbf1;letter-spacing:.5px}
+.container{max-width:1050px;margin:auto;padding:22px 16px 30px}
+.search{width:100%;padding:15px 18px;border:1px solid #31545a;border-radius:15px;margin-bottom:14px;outline:none;font-size:14px;background:#102a30;color:#e8f4f3;box-shadow:0 8px 24px #0002}
+.search::placeholder{color:#8aa9aa}.search:focus{border-color:#2dd4bf;box-shadow:0 0 0 4px #14b8a622}
+.tabs{display:flex;gap:8px;overflow-x:auto;margin-bottom:24px;padding:2px 1px 8px;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}
+.tabs button{border:1px solid #31545a;background:#102a30;color:#c0d5d5;padding:10px 15px;border-radius:999px;white-space:nowrap;font-weight:800;font-size:12px;cursor:pointer;transition:.18s}
+.tabs button:hover{transform:translateY(-1px);border-color:#5eead4}.tabs button.active{background:linear-gradient(135deg,#0f766e,#14b8a6);color:#fff;border-color:transparent;box-shadow:0 7px 18px #0f766e55}
+.category{margin-bottom:26px}.category h3{font-size:17px;margin-bottom:12px;display:flex;align-items:center;gap:10px;color:#d5f5ef}
+.category h3:before{content:"";display:block;width:5px;height:21px;border-radius:8px;background:linear-gradient(180deg,#5eead4,#0e7490)}
+.products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.product{background:linear-gradient(155deg,#15363c,#0e252b);border:1px solid #284b50;border-radius:17px;overflow:hidden;box-shadow:0 7px 22px #0002;transition:transform .18s,box-shadow .18s,border-color .18s}
+.product:hover{transform:translateY(-3px);box-shadow:0 13px 30px #0004;border-color:#2dd4bf88}
+.product-head{width:100%;border:0;background:transparent;padding:15px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left;cursor:pointer;color:var(--text)}
+.product-name{font-size:12px;font-weight:850;line-height:1.5}
+.arrow{flex:0 0 auto;width:29px;height:29px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:#164e4a;color:#99f6e4;font-size:17px;font-weight:900;transition:.2s}
+.product-details{display:none;padding:0 14px 14px;border-top:1px solid #284b50}.product.open .product-details{display:block}.product.open .arrow{transform:rotate(180deg);background:#0f766e;color:#fff}
+.product-bottom{padding-top:13px;display:flex;flex-direction:column;gap:11px}.price{font-size:16px;font-weight:950;color:#5eead4}
+.product-order{width:100%;border:0;background:linear-gradient(135deg,#15803d,#22c55e);color:#fff;padding:11px;border-radius:11px;font-weight:900;font-size:11px;cursor:pointer;box-shadow:0 5px 14px #16a34a25;transition:.16s}
+.product-order:hover{filter:brightness(1.08);transform:translateY(-1px)}.product-order:active{transform:scale(.98)}
+.buy-btn.disabled{background:#52666a;color:#dbe5e5;border:0;padding:9px;border-radius:9px}
+.info{background:linear-gradient(145deg,#12383a,#10272d);border:1px solid #2a5757;border-radius:18px;padding:20px;margin-top:24px;box-shadow:0 8px 26px #0002}
+.info h2{font-size:16px;margin-bottom:10px;color:#e6fffb}.info ul{padding-left:20px;line-height:1.9;font-size:13px;color:#bfd6d5}
+footer{text-align:center;color:#85a5a5;font-size:11px;padding:28px 10px 38px}
+.cart-toggle{position:fixed;right:16px;top:16px;z-index:1001;border:1px solid #d1fae5;background:#ecfdf5;color:#065f46;width:48px;height:48px;border-radius:15px;box-shadow:0 8px 24px #0004;cursor:pointer;font-size:19px;font-weight:900;transition:.18s}
+.cart-toggle:hover{transform:scale(1.05)}.cart-badge{position:absolute;right:-5px;top:-5px;background:#f97316;color:#fff;border-radius:20px;min-width:20px;height:20px;padding:0 5px;font-size:10px;display:flex;align-items:center;justify-content:center;border:2px solid #ecfdf5}
+.cart-panel{position:fixed;right:15px;top:74px;width:min(360px,calc(100vw - 30px));background:#102a30;border:1px solid #31545a;border-radius:17px;box-shadow:0 18px 50px #0008;z-index:1000;overflow:hidden;display:none;color:var(--text)}
+.cart-panel.open{display:block}.cart-header{background:linear-gradient(135deg,#064e4b,#115e59);color:#fff;padding:15px;display:flex;justify-content:space-between;align-items:center;font-size:14px}
+.close-cart{border:0;background:transparent;color:#fff;font-size:22px;cursor:pointer}.cart-body{padding:11px;max-height:280px;overflow:auto}.cart-item{padding:11px 3px;border-bottom:1px solid var(--border)}
+.cart-item-name{font-size:12px;font-weight:800}.cart-item-price{color:#5eead4;font-weight:900;font-size:12px;margin-top:4px}.remove{border:0;background:none;color:#fca5a5;font-size:11px;cursor:pointer;margin-top:5px}
+.total{display:flex;justify-content:space-between;padding:13px 15px;font-weight:950;font-size:13px;border-top:1px solid var(--border)}
+.wa-btn{display:block;text-align:center;text-decoration:none;background:linear-gradient(135deg,#15803d,#22c55e);color:#fff;margin:0 12px 12px;padding:12px;border-radius:11px;font-weight:950;font-size:12px;box-shadow:0 6px 15px #16a34a25}
+.empty{text-align:center;color:var(--muted);padding:16px;font-size:12px}
+@media(max-width:500px){header{padding:34px 18px 28px}.container{padding:15px 11px 25px}.products{gap:9px}.product-head{padding:12px 10px}.product-name{font-size:11px}.product-details{padding:0 10px 11px}.price{font-size:14px}.product-order{font-size:10px;padding:10px}.category h3{font-size:15px}}
+@media(min-width:700px){.products{grid-template-columns:repeat(3,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Tiboy StoreID</div>
+  <div class="tagline">SMM Store • All Social Media</div>
+</header>
+
+<!-- Tombol keranjang kecil -->
+<button class="cart-toggle" onclick="toggleCart()" aria-label="Buka keranjang">
+  🛒
+  <span class="cart-badge" id="cartBadge">0</span>
+</button>
+
+<!-- Panel keranjang -->
+<div class="cart-panel" id="cartPanel">
+  <div class="cart-header">
+    <strong>🛒 Keranjang</strong>
+    <button class="close-cart" onclick="toggleCart()">×</button>
+  </div>
+  <div class="cart-body" id="cartItems">
+    <div class="empty">Belum ada produk.</div>
+  </div>
+  <div class="total">
+    <span>Total</span>
+    <span id="totalPrice">Rp 0</span>
+  </div>
+  <a href="#" class="wa-btn" onclick="sendWhatsApp(event)">💬 Pesan via WhatsApp</a>
+</div>
+
+<div class="container">
+  <input class="search" type="text" id="search" placeholder="🔎 Cari produk..." oninput="renderProducts()">
+
+  <div class="tabs">
+    <button class="active" onclick="filterPlatform('ALL',this)">Semua</button>
+    <button onclick="filterPlatform('TIKTOK',this)">TikTok</button>
+    <button onclick="filterPlatform('INSTAGRAM',this)">Instagram</button>
+    <button onclick="filterPlatform('WHATSAPP',this)">WhatsApp</button>
+    <button onclick="filterPlatform('FACEBOOK',this)">Facebook</button>
+    <button onclick="filterPlatform('TELEGRAM',this)">Telegram</button>
+    <button onclick="filterPlatform('MURID',this)">Join Murid</button>
+  </div>
+
+  <div id="productContainer"></div>
+
+  <div class="info"><p style="font-size:12px;font-weight:800;color:#16a34a;margin-bottom:8px">💬 Pesanan dikirim langsung ke WhatsApp admin</p>
+    <h2>🎓 JOIN MURID SUNTIK — Rp 30K</h2>
+    <ul>
+      <li>Bisa jualan suntik All Sosmed</li>
+      <li>Bisa suntik akun sendiri</li>
+      <li>Full pengajaran</li>
+    </ul>
+  </div>
+</div>
+
+<footer>© 2026 Tiboy StoreID • SMM Store</footer>
+
+<script>
+/* GANTI NOMOR WHATSAPP TOKO DI SINI */
+const WHATSAPP_NUMBER="6283137231554";
+
+const products=[
+["TIKTOK","Followers TikTok","100 Followers TikTok",6000],
+["TIKTOK","Followers TikTok","200 Followers TikTok",12000],
+["TIKTOK","Followers TikTok","300 Followers TikTok",18000],
+["TIKTOK","Followers TikTok","400 Followers TikTok",24000],
+["TIKTOK","Followers TikTok","500 Followers TikTok",30000],
+["TIKTOK","Followers TikTok","600 Followers TikTok",36000],
+["TIKTOK","Followers TikTok","700 Followers TikTok",42000],
+["TIKTOK","Followers TikTok","800 Followers TikTok",48000],
+["TIKTOK","Followers TikTok","900 Followers TikTok",54000],
+["TIKTOK","Followers TikTok","1000 Followers TikTok",60000],
+["TIKTOK","Paket FYP TikTok","5.000 Views + 200 Like",6000],
+["TIKTOK","Paket FYP TikTok","10.000 Views + 400 Like",12000],
+["TIKTOK","Paket FYP TikTok","15.000 Views + 600 Like",18000],
+["TIKTOK","Paket FYP TikTok","20.000 Views + 800 Like",24000],
+["TIKTOK","Paket FYP TikTok","25.000 Views + 1.000 Like",30000],
+["TIKTOK","Paket FYP TikTok","30.000 Views + 1.200 Like + 100 Save",36000],
+["TIKTOK","Paket FYP TikTok","35.000 Views + 1.400 Like + 200 Save",42000],
+["TIKTOK","Paket FYP TikTok","40.000 Views + 1.600 Like + 300 Save",48000],
+["TIKTOK","Paket FYP TikTok","45.000 Views + 1.800 Like + 400 Save + 10 Komen",54000],
+["TIKTOK","Paket FYP TikTok","50.000 Views + 2.500 Like + 500 Save + 20 Komen",60000],
+
+["INSTAGRAM","Followers Instagram","100 Followers Instagram",5000],
+["INSTAGRAM","Followers Instagram","200 Followers Instagram",10000],
+["INSTAGRAM","Followers Instagram","300 Followers Instagram",15000],
+["INSTAGRAM","Followers Instagram","400 Followers Instagram",20000],
+["INSTAGRAM","Followers Instagram","500 Followers Instagram",25000],
+["INSTAGRAM","Followers Instagram","600 Followers Instagram",30000],
+["INSTAGRAM","Followers Instagram","700 Followers Instagram",35000],
+["INSTAGRAM","Followers Instagram","800 Followers Instagram",40000],
+["INSTAGRAM","Followers Instagram","900 Followers Instagram",45000],
+["INSTAGRAM","Followers Instagram","1000 Followers Instagram",50000],
+["INSTAGRAM","Paket FYP Instagram","5.000 Views + 200 Like",6000],
+["INSTAGRAM","Paket FYP Instagram","10.000 Views + 400 Like",12000],
+["INSTAGRAM","Paket FYP Instagram","15.000 Views + 600 Like",18000],
+["INSTAGRAM","Paket FYP Instagram","20.000 Views + 800 Like",24000],
+["INSTAGRAM","Paket FYP Instagram","25.000 Views + 1.000 Like",30000],
+["INSTAGRAM","Paket FYP Instagram","30.000 Views + 1.200 Like + 100 Save",36000],
+["INSTAGRAM","Paket FYP Instagram","35.000 Views + 1.400 Like + 200 Save",42000],
+["INSTAGRAM","Paket FYP Instagram","40.000 Views + 1.600 Like + 300 Save",48000],
+["INSTAGRAM","Paket FYP Instagram","45.000 Views + 1.800 Like + 400 Save + 10 Komen",54000],
+["INSTAGRAM","Paket FYP Instagram","50.000 Views + 2.500 Like + 500 Save + 20 Komen",60000],
+
+["WHATSAPP","Pengikut Saluran WhatsApp","100 Pengikut Saluran",5000],
+["WHATSAPP","Pengikut Saluran WhatsApp","200 Pengikut Saluran",10000],
+["WHATSAPP","Pengikut Saluran WhatsApp","300 Pengikut Saluran",15000],
+["WHATSAPP","Pengikut Saluran WhatsApp","400 Pengikut Saluran",20000],
+["WHATSAPP","Pengikut Saluran WhatsApp","500 Pengikut Saluran",25000],
+["WHATSAPP","Pengikut Saluran WhatsApp","600 Pengikut Saluran",30000],
+["WHATSAPP","Pengikut Saluran WhatsApp","700 Pengikut Saluran",35000],
+["WHATSAPP","Pengikut Saluran WhatsApp","800 Pengikut Saluran",40000],
+["WHATSAPP","Pengikut Saluran WhatsApp","900 Pengikut Saluran",45000],
+["WHATSAPP","Pengikut Saluran WhatsApp","1000 Pengikut Saluran",50000],
+["WHATSAPP","Reaction Saluran","50 React",3000],
+["WHATSAPP","Reaction Saluran","100 React",4000],
+["WHATSAPP","Reaction Saluran","200 React",5000],
+["WHATSAPP","Reaction Saluran","300 React",6000],
+["WHATSAPP","Reaction Saluran","400 React",7000],
+["WHATSAPP","Reaction Saluran","500 React",8000],
+["WHATSAPP","Reaction Saluran","600 React",9000],
+["WHATSAPP","Reaction Saluran","700 React",10000],
+
+["FACEBOOK","Followers Facebook","100 Followers Facebook",5000],
+["FACEBOOK","Followers Facebook","200 Followers Facebook",10000],
+["FACEBOOK","Followers Facebook","300 Followers Facebook",15000],
+["FACEBOOK","Followers Facebook","400 Followers Facebook",20000],
+["FACEBOOK","Followers Facebook","500 Followers Facebook",25000],
+["FACEBOOK","Followers Facebook","600 Followers Facebook",30000],
+["FACEBOOK","Followers Facebook","700 Followers Facebook",35000],
+["FACEBOOK","Followers Facebook","800 Followers Facebook",40000],
+["FACEBOOK","Followers Facebook","900 Followers Facebook",45000],
+["FACEBOOK","Followers Facebook","1000 Followers Facebook",50000],
+
+["TELEGRAM","Telegram Channel Member","100 Member Telegram",5000],
+["TELEGRAM","Telegram Channel Member","200 Member Telegram",10000],
+["TELEGRAM","Telegram Channel Member","300 Member Telegram",15000],
+["TELEGRAM","Telegram Channel Member","400 Member Telegram",20000],
+["TELEGRAM","Telegram Channel Member","500 Member Telegram",25000],
+["TELEGRAM","Telegram Channel Member","600 Member Telegram",30000],
+["TELEGRAM","Telegram Channel Member","700 Member Telegram",35000],
+["TELEGRAM","Telegram Channel Member","800 Member Telegram",40000],
+["TELEGRAM","Telegram Channel Member","900 Member Telegram",45000],
+["TELEGRAM","Telegram Channel Member","1000 Member Telegram",50000],
+
+["MURID","Join Murid Suntik","Join Murid Suntik All Sosmed",30000]
+];
+
+let currentPlatform="ALL",cart=[];
+
+function rupiah(n){
+  return new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",minimumFractionDigits:0}).format(n);
+}
+
+function filterPlatform(p,b){
+  currentPlatform=p;
+  document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active");
+  renderProducts();
+}
+
+function renderProducts(){
+  const container=document.getElementById("productContainer");
+  const search=document.getElementById("search").value.toLowerCase();
+
+  const filtered=products.filter(p =>
+    (currentPlatform==="ALL" || p[0]===currentPlatform) &&
+    (p[2].toLowerCase().includes(search) || p[1].toLowerCase().includes(search))
+  );
+
+  container.innerHTML="";
+  if(!filtered.length){
+    container.innerHTML='<div class="category"><div class="empty">Produk tidak ditemukan.</div></div>';
+    return;
+  }
+
+  const grouped={};
+  filtered.forEach(p=>(grouped[p[1]]??=[]).push(p));
+
+  Object.keys(grouped).forEach(cat=>{
+    const div=document.createElement("div");
+    div.className="category";
+    div.innerHTML=`<h3>${cat}</h3><div class="products"></div>`;
+    const grid=div.querySelector(".products");
+
+    grouped[cat].forEach(p=>{
+      const i=products.indexOf(p);
+      const card=document.createElement("div");
+      card.className="product collapsed";
+      const price=p[3]===null?"Harga belum diisi":rupiah(p[3]);
+
+      card.innerHTML=`
+        <button class="product-head" type="button" onclick="toggleProduct(this)">
+          <span class="product-name">${p[2]}</span>
+          <span class="arrow">⌄</span>
+        </button>
+        <div class="product-details">
+          <div class="product-bottom">
+            <div class="price">${price}</div>
+            ${p[3]===null
+              ? '<button class="buy-btn disabled" disabled>Belum Diisi</button>'
+              : `<button class="product-order" onclick="event.stopPropagation();orderWhatsApp(${i})">💬 Pesan via WhatsApp</button>`}
+          </div>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+
+    container.appendChild(div);
+  });
+}
+
+function toggleProduct(button){
+  const card=button.closest(".product");
+  const wasOpen=card.classList.contains("open");
+  document.querySelectorAll(".product.open").forEach(x=>x.classList.remove("open"));
+  if(!wasOpen) card.classList.add("open");
+}
+
+function toggleCart(){
+  document.getElementById("cartPanel").classList.toggle("open");
+}
+
+function addToCart(i){
+  cart.push(products[i]);
+  updateCart();
+}
+
+function removeFromCart(i){
+  cart.splice(i,1);
+  updateCart();
+}
+
+function updateCart(){
+  document.getElementById("cartBadge").textContent=cart.length;
+  const box=document.getElementById("cartItems");
+
+  if(!cart.length){
+    box.innerHTML='<div class="empty">Belum ada produk.</div>';
+    document.getElementById("totalPrice").textContent=rupiah(0);
+    return;
+  }
+
+  let total=0;
+  box.innerHTML="";
+
+  cart.forEach((p,i)=>{
+    total+=p[3];
+    const d=document.createElement("div");
+    d.className="cart-item";
+    d.innerHTML=`
+      <div class="cart-item-name">${p[2]}</div>
+      <div class="cart-item-price">${rupiah(p[3])}</div>
+      <button class="remove" onclick="removeFromCart(${i})">Hapus</button>
+    `;
+    box.appendChild(d);
+  });
+
+  document.getElementById("totalPrice").textContent=rupiah(total);
+}
+
+function orderWhatsApp(i){
+  const p=products[i];
+  if(p[3]===null){
+    alert("Harga produk belum diisi.");
+    return;
+  }
+
+  const msg =
+    `Halo Tiboy StoreID, saya ingin memesan:%0A%0A` +
+    `Produk: ${p[2]}%0A` +
+    `Kategori: ${p[1]}%0A` +
+    `Harga: ${rupiah(p[3])}%0A%0A` +
+    `Mohon info proses pembayaran dan pengerjaannya.`;
+
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`,"_blank");
+}
+
+function sendWhatsApp(e){
+  e.preventDefault();
+
+  if(!cart.length){
+    alert("Silakan pilih produk terlebih dahulu.");
+    return;
+  }
+
+  let total=0;
+  let msg="Halo Tiboy StoreID, saya ingin memesan:%0A%0A";
+
+  cart.forEach((p,i)=>{
+    total+=p[3];
+    msg+=`${i+1}. ${p[2]} - ${rupiah(p[3])}%0A`;
+  });
+
+  msg+=`%0A*Total: ${rupiah(total)}*%0A%0AMohon info proses pembayarannya.`;
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`,"_blank");
+}
+
+renderProducts();
+updateCart();
+</script>
+</body>
+</html>
